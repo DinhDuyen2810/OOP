@@ -4,6 +4,7 @@
 #include <string>
 #include <algorithm>
 #include <cmath>
+#include <fstream>
 using namespace std;
 typedef struct point
 {
@@ -554,19 +555,36 @@ public:
         out[2].y = out[3].y;
     }
 
-    void printinforIDPoint() // in ra các tọa độ giao nhau
+    void printinforIDPoint()
     {
+        ofstream outFile("input.txt", ios::app); // Mở file để ghi tiếp vào cuối file
+        if (!outFile) {
+            cerr << "Khong mo duoc input" << endl;
+            return;
+        }
         for(int i = 0; i < static_cast<int>(inforIDPoint.size()); i++){
             inforIDPoint[i].ID = i + 1;
-            cout << "n " << inforIDPoint[i].ID << " 0 # " << inforIDPoint[i].x << ", " << inforIDPoint[i].y << endl;  
+            cout << "n " << inforIDPoint[i].ID << " 0 # " << inforIDPoint[i].x << "," << inforIDPoint[i].y << endl;  
+            outFile << "n " << inforIDPoint[i].ID << " 0 # " << inforIDPoint[i].x << "," << inforIDPoint[i].y << endl;  
         }
+
+        outFile.close(); // Đóng file sau khi ghi xong
     }
-    void printinforIDEdge() // in ra các cạnh giao nhau
+    void printinforIDEdge()
     {
+        ofstream outFile("input.txt", ios::app); // Mở file để ghi tiếp vào cuối file
+        if (!outFile) {
+            cerr << "Khong mo duoc input" << endl;
+            return;
+        }
         for(int i = 0; i < static_cast<int>(inforIDEdge.size()); i++){
             cout << "a " << inforIDEdge[i].ID1 << " " << inforIDEdge[i].ID2 
-                 << " 0 INF " << inforIDEdge[i].space << endl;
+                << " 0 INF " << inforIDEdge[i].space << endl;
+            outFile << "a " << inforIDEdge[i].ID1 << " " << inforIDEdge[i].ID2 
+                    << " 0 INF " << inforIDEdge[i].space << endl;
         }
+
+        outFile.close(); // Đóng file sau khi ghi xong
     }
 
 };
