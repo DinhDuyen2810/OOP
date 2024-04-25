@@ -706,11 +706,11 @@ public:
         Rectangle[0].x = oldRectangleCoordinates.x - (newRectangle2[1].x - newRectangle2[0]. x) / 2 + (d1 + d2);
         Rectangle[0].y = oldRectangleCoordinates.y - (newRectangle2[2].y - newRectangle2[1]. y) / 2 + (d1 + d2);
         Rectangle[1].x = oldRectangleCoordinates.x + (newRectangle2[1].x - newRectangle2[0]. x) / 2 - (d1 + d2);
-        Rectangle[1].y = oldRectangleCoordinates.y - (newRectangle2[1].x - newRectangle2[0]. x) / 2 + (d1 + d2);
+        Rectangle[1].y = oldRectangleCoordinates.y - (newRectangle2[2].y - newRectangle2[1]. y) / 2 + (d1 + d2);
         Rectangle[2].x = oldRectangleCoordinates.x + (newRectangle2[1].x - newRectangle2[0]. x) / 2 - (d1 + d2);
-        Rectangle[2].y = oldRectangleCoordinates.y + (newRectangle2[1].x - newRectangle2[0]. x) / 2 - (d1 + d2);
+        Rectangle[2].y = oldRectangleCoordinates.y + (newRectangle2[2].y - newRectangle2[1]. y) / 2 - (d1 + d2);
         Rectangle[3].x = oldRectangleCoordinates.x - (newRectangle2[1].x - newRectangle2[0]. x) / 2 + (d1 + d2);
-        Rectangle[3].y = oldRectangleCoordinates.y + (newRectangle2[1].x - newRectangle2[0]. x) / 2 - (d1 + d2);
+        Rectangle[3].y = oldRectangleCoordinates.y + (newRectangle2[2].y - newRectangle2[1]. y) / 2 - (d1 + d2);
         Land.length = (Rectangle[1].x - Rectangle[0]. x);
         Land.depth = (Rectangle[2].y - Rectangle[1]. y);
     }
@@ -746,6 +746,8 @@ public:
     }
     void calculatenewRectangle1() // tính tọa độ newRectangle1
     {
+        cout << oldRectangleCoordinates.x << ", " << oldRectangleCoordinates.y << endl;
+        cout << Land.length << ", " << Land.depth << endl;
         newRectangle1[0].x = oldRectangleCoordinates.x - (Land.length + 2 * d1) / 2;
         newRectangle1[0].y = oldRectangleCoordinates.y - (Land.depth + 2 * d1) / 2;
         newRectangle1[1].x = oldRectangleCoordinates.x + (Land.length + 2 * d1) / 2;
@@ -879,24 +881,26 @@ int main()
     string firstLine;
     string secondLine;
 
-    {Rectangle[0].x = 0; Rectangle[0].y = 0; Rectangle[1].x = 18; Rectangle[1].y = 0;
-    Rectangle[2].x = 18; Rectangle[2].y = 18; Rectangle[3].x = 0; Rectangle[3].y = 18;
-    M = N = 2;
-    Building.length = Building.depth = 2;
+    {Rectangle[0].x = 0; Rectangle[0].y = 0; Rectangle[1].x = 30; Rectangle[1].y = 0;
+    Rectangle[2].x = 30; Rectangle[2].y = 24; Rectangle[3].x = 0; Rectangle[3].y = 24;
+    M = 4;
+    N = 3;
+    Building.length = 2;
+    Building.depth = 2;
     d1 = 1;
     d3 = 1;
-    firstLine = "i 0,8 0,10";
-    secondLine = "o 18,8 18,10";}
+    firstLine = "i 0,11 0,13";
+    secondLine = "o 30,11 30,13";}
 
     // ----------------- Câu a -----------------//
-    /* 
-    for(int i = 0; i < 4; i++){
+    
+    /* for(int i = 0; i < 4; i++){
         cin >> Rectangle[i].x >> Rectangle[i].y;
     }// Nhập tọa độ 4 đỉnh mảnh đất
     cin >> M >> N;  // Nhập số khoa/viện theo chiều ngang và dọc
     cin >> Building.length >> Building.depth;  // Nhập độ dài và rộng của công trình khoa/viện 
-    
-    Bai14* myCaua = new Bai14(Rectangle, M, N, Building);
+     */
+    /* Bai14* myCaua = new Bai14(Rectangle, M, N, Building);
     cout << endl << "Cau a: " << endl;
 
     myCaua->calculateArea();
@@ -919,17 +923,17 @@ int main()
     myCaub->printnewRectangle2();
     cout << endl ; */
     // ----------------- Câu c -----------------// 
-    /* //cin >> d1; // Nhập độ rộng của đường bao
+    //cin >> d1; // Nhập độ rộng của đường bao
     
     Bai14* myCaucde = new Bai14(Rectangle, M, N, Building, d1);
-    cout << endl << "Cau c: " << endl;
+     /*cout << endl << "Cau c: " << endl;
 
     myCaucde->calculateArea();
     myCaucde->calculateSpace();
     myCaucde->printSpace(); */
     // ----------------- Câu d -----------------//
-    /* 
-    cout << endl << "Cau d: " << endl;
+    
+/*     cout << endl << "Cau d: " << endl;
     myCaucde->change();
     myCaucde->calculateNewLandCoordinates();
     myCaucde->calculateArea();
@@ -937,8 +941,9 @@ int main()
     myCaucde->calculateSmallSurroundedCoordinates();
     myCaucde->calculateSpace();
     myCaucde->calculatenewRectangle1();
-
-    cout << endl;
+    myCaucde->printnewRectangle1();
+    myCaucde->printnewRectangle2();
+    cout << endl;cout << endl;
     for(int i = 0; i < M * N; i++){
         myCaucde->printSurroundedCoordinates(i);
     }
@@ -982,7 +987,7 @@ int main()
     myCaug->calculateInOut();
     myCaug->printInOut(); */
     // ----------------- Câu h -----------------//
-    cout << endl << "Cau h, i: " << endl;
+/*     cout << endl << "Cau h, i: " << endl;
     Bai14* myCauh = new Bai14(Rectangle, M, N, Building, d1, d3, firstLine, secondLine);
     myCauh->change();
     myCauh->calculateNewLandCoordinates();
@@ -995,6 +1000,6 @@ int main()
     myCauh->calculateInforIDPoint();
     myCauh->printinforIDPoint();
     myCauh->calculateInforIDEdge();
-    myCauh->printinforIDEdge();
+    myCauh->printinforIDEdge(); */
     
 }
