@@ -492,11 +492,11 @@ public:
         Rectangle[0].x = oldRectangleCoordinates.x - (newRectangle2[1].x - newRectangle2[0]. x) / 2 + (d1 + d2);
         Rectangle[0].y = oldRectangleCoordinates.y - (newRectangle2[2].y - newRectangle2[1]. y) / 2 + (d1 + d2);
         Rectangle[1].x = oldRectangleCoordinates.x + (newRectangle2[1].x - newRectangle2[0]. x) / 2 - (d1 + d2);
-        Rectangle[1].y = oldRectangleCoordinates.y - (newRectangle2[1].x - newRectangle2[0]. x) / 2 + (d1 + d2);
+        Rectangle[1].y = oldRectangleCoordinates.y - (newRectangle2[2].y - newRectangle2[1]. y) / 2 + (d1 + d2);
         Rectangle[2].x = oldRectangleCoordinates.x + (newRectangle2[1].x - newRectangle2[0]. x) / 2 - (d1 + d2);
-        Rectangle[2].y = oldRectangleCoordinates.y + (newRectangle2[1].x - newRectangle2[0]. x) / 2 - (d1 + d2);
+        Rectangle[2].y = oldRectangleCoordinates.y + (newRectangle2[2].y - newRectangle2[1]. y) / 2 - (d1 + d2);
         Rectangle[3].x = oldRectangleCoordinates.x - (newRectangle2[1].x - newRectangle2[0]. x) / 2 + (d1 + d2);
-        Rectangle[3].y = oldRectangleCoordinates.y + (newRectangle2[1].x - newRectangle2[0]. x) / 2 - (d1 + d2);
+        Rectangle[3].y = oldRectangleCoordinates.y + (newRectangle2[2].y - newRectangle2[1]. y) / 2 - (d1 + d2);
         Land.length = (Rectangle[1].x - Rectangle[0]. x);
         Land.depth = (Rectangle[2].y - Rectangle[1]. y);
     }
@@ -601,14 +601,16 @@ int main()
     string firstLine;
     string secondLine;
 
-    {Rectangle[0].x = 0; Rectangle[0].y = 0; Rectangle[1].x = 18; Rectangle[1].y = 0;
-    Rectangle[2].x = 18; Rectangle[2].y = 18; Rectangle[3].x = 0; Rectangle[3].y = 18;
-    M = N = 2;
-    Building.length = Building.depth = 2;
+    {Rectangle[0].x = 0; Rectangle[0].y = 0; Rectangle[1].x = 30; Rectangle[1].y = 0;
+    Rectangle[2].x = 30; Rectangle[2].y = 24; Rectangle[3].x = 0; Rectangle[3].y = 24;
+    M = 4;
+    N = 3;
+    Building.length = 2;
+    Building.depth = 2;
     d1 = 1;
     d3 = 1;
-    firstLine = "i 0,8 0,10";
-    secondLine = "o 18,8 18,10";}
+    firstLine = "i 0,11 0,13";
+    secondLine = "o 30,11 30,13";}
 
     /* for(int i = 0; i < 4; i++){
         cin >> Rectangle[i].x >> Rectangle[i].y;
