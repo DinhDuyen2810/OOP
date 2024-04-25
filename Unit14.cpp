@@ -215,6 +215,9 @@ public:
     }
     bool checkSwapRow1(int k) // Kiểm tra i cách newRetangle[0].x chẵn hay lẻ
     {
+        if(inforIDPoint[k - 1].y == newRectangle1[3].y){
+            return true;
+        }
         int miny = findID(inforIDPoint[k - 1].x, newRectangle1[0].y);
         if((k - miny) % 2 == 1){
             return true;
