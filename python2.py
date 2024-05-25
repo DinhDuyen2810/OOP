@@ -46,8 +46,9 @@ alpha = 0.05
 
 # Mở file output để ghi kết quả
 output_file_path = os.path.join(current_directory, '..', 'output', 'outputpy.txt')
-with open(output_file_path, 'w', encoding='utf-8') as output_file:
-    
+
+# Mở tệp với chế độ 'w+' để xóa nội dung cũ và ghi nội dung mới
+with open(output_file_path, 'w+', encoding='utf-8') as output_file:
     stat, p = stats.kstest(samples, 'norm')
 
     values = samples.astype(int)
