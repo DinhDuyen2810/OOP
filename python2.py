@@ -5,18 +5,18 @@ from scipy import stats
 import sys
 import io
 
-# Đặt mã hóa mặc định thành UTF-8
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-
 # Lấy đường dẫn tới thư mục chứa file Python hiện tại
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Đường dẫn đến file input.json
-file_path = os.path.join(current_directory, '..', '..', 'data', 'input.json')
+file_path = os.path.join(current_directory, '..', '..', '..', 'data', 'input.json')
 
 # Đọc dữ liệu từ file JSON
 with open(file_path, 'r', encoding='utf-8') as file:
     data = json.load(file)
+
+# Đặt mã hóa mặc định thành UTF-8
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # Số lượng mẫu, tổng giá trị của các mẫu, cận dưới và cận trên của các giá trị mẫu
 num_samples = 6
@@ -43,7 +43,7 @@ stat, p = stats.shapiro(samples)
 alpha = 0.05
 
 # Mở file output để ghi kết quả
-output_file_path = os.path.join(current_directory, '..', 'utility', 'output', 'outputpy.txt')
+output_file_path = os.path.join(current_directory, '..', 'output', 'outputpy.txt')
 with open(output_file_path, 'w', encoding='utf-8') as output_file:
     
     stat, p = stats.kstest(samples, 'norm')
