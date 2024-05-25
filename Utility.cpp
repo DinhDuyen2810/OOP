@@ -319,6 +319,10 @@ std::vector<double> Utility::getPedesVelocityBasedDDis(json inputData, float dev
         int number = distribution(generator);
         ++p[number];
     } */
+    // Gọi tập lệnh Python để sinh dữ liệu trong outputpy.txt
+    system("python ../python/python2.py");
+
+    // Đọc dữ liệu từ outputpy.txt
     int p[6] = {};
     std::ifstream inputFile("outputpy.txt");
     std::string line;
