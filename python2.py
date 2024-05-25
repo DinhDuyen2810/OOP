@@ -19,13 +19,15 @@ with open(file_path, 'r', encoding='utf-8') as file:
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # Số lượng mẫu, tổng giá trị của các mẫu, cận dưới và cận trên của các giá trị mẫu
-num_samples = 6
-total_value = data.get("numOfAgents", {}).get("value")
-lower_bound = 0
-upper_bound = 12000
+distribution_data = data.get("walkability", {}).get("distribution", {}).get("normal", {})
+num_samples = int(distribution_data.get("samples"))
+total_value = int(data.get("numOfAgents", {}).get("value"))
+lower_bound = int(distribution_data.get("lowerBound"))
+upper_bound = int(distribution_data.get("upperBound"))
 
 # Tính giá trị trung bình và độ lệch chuẩn
 mean = total_value / num_samples
+
 std_dev = (mean - lower_bound) / 3  # Giả sử rằng 99.7% dữ liệu nằm trong khoảng 3 độ lệch chuẩn từ giá trị trung bình
 
 # Tạo ra các mẫu ngẫu nhiên tuân theo phân phối chuẩn
