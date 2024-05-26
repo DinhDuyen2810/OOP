@@ -9,7 +9,7 @@ import io
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Đường dẫn đến file input.json
-file_path = os.path.join(current_directory, '..', '..', '..', 'data', 'input.json')
+file_path = os.path.join(current_directory, '..', '..', 'data', 'input.json')
 
 # Đọc dữ liệu từ file JSON
 with open(file_path, 'r', encoding='utf-8') as file:
@@ -45,7 +45,7 @@ stat, p = stats.shapiro(samples)
 alpha = 0.05
 
 # Mở file output để ghi kết quả
-output_file_path = os.path.join(current_directory, '..', 'output', 'outputpy.txt')
+output_file_path = os.path.join(current_directory, '..', '..', 'data', 'outputpy.txt')
 
 # Mở tệp với chế độ 'w+' để xóa nội dung cũ và ghi nội dung mới
 with open(output_file_path, 'w+', encoding='utf-8') as output_file:
