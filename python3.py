@@ -8,7 +8,7 @@ import sys
 current_directory = os.path.dirname(__file__)
 
 # Đường dẫn đến file input.json
-file_path = os.path.join(current_directory, '..', '..', '..', 'data', 'input.json')
+file_path = os.path.join(current_directory, '..', '..', 'data', 'input.json')
 
 # Đọc dữ liệu từ file input.json
 with open(file_path, 'r') as input_file:
@@ -47,7 +47,7 @@ while count_normal_samples < 5:
         count_normal_samples += 1
 
 # Đường dẫn đến file output
-output_file_path = os.path.join(current_directory, '..', 'output', 'outputpy.txt')
+output_file_path = os.path.join(current_directory, '..', '..', 'data', 'outputpy.txt')
 
 # Mở file output để ghi dữ liệu
 with open(output_file_path, 'w') as output_file:
