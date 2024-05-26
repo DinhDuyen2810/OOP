@@ -8,8 +8,8 @@ import os
 # Lấy đường dẫn tới thư mục chứa file Python hiện tại
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
-# Đường dẫn đến file input.json
-file_path = os.path.join(current_directory, '..', '..', '..', 'data', 'input.json')
+# Đường dẫn đến file input.json theo cấu trúc mới
+file_path = os.path.join(current_directory, '..', '..', 'data', 'input.json')
 
 # Đọc dữ liệu từ file JSON
 with open(file_path, 'r') as file:
@@ -44,8 +44,8 @@ while True:
     if p_value >= alpha:
         break
 
-# Đường dẫn đến file outputpy.txt
-output_file_path = os.path.join(current_directory, '..', 'output', 'outputpy.txt')
+# Đường dẫn đến file outputpy.txt theo cấu trúc mới
+output_file_path = os.path.join(current_directory, '..', '..', 'data', 'outputpy.txt')
 
 # Ghi kết quả vào file outputpy.txt
 with open(output_file_path, 'w', encoding='utf-8') as output_file:
