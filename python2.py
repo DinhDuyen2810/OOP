@@ -21,7 +21,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 # Số lượng mẫu, tổng giá trị của các mẫu, cận dưới và cận trên của các giá trị mẫu
 distribution_data = data.get("walkability", {}).get("distribution", {}).get("normal", {})
 num_samples = int(distribution_data.get("samples"))
-total_value = int(data.get("numOfAgents", {}).get("value"))
+total_value = 10000
 lower_bound = int(distribution_data.get("lowerBound"))
 upper_bound = int(distribution_data.get("upperBound"))
 
