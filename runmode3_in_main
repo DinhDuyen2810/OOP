@@ -1,0 +1,95 @@
+else if ((int)inputData["runMode"]["value"] == 3){
+        const char *fileName = "/data/hospital.txt";
+        std::map<std::string, std::vector<float>> hospitalData = Utility::readHospitalData(fileName);
+        std::map<std::string, std::vector<float>> WardData;
+        std::map<std::string, std::vector<float>> WardCoordinates;
+        // lọc các khoa viện
+        for (const auto& pair : hospitalData) {
+            if(pair.first.length() < 2){
+                WardData[pair.first] = pair.second;
+            }
+        }
+        WardData["A"] = {hospitalData["PosofA"][0], hospitalData["PosofA"][1], hospitalData["PosofA"][4],
+        hospitalData["PosofA"][5], hospitalData["PosofA"][6] - hospitalData["PosofA"][2]};
+        walkwayWidth = 10e8;
+        // tính toán tọa độ từng khoa/viện
+        for (auto& ward : WardData) {
+            float x1 = ward.second[0] - ward.second[4] / 2.0;
+            float y1 = ward.second[1];
+            float x2 = ward.second[0] + ward.second[4] / 2.0;
+            float y2 = ward.second[1];
+            float x3 = ward.second[0] + ward.second[4] / 2.0;
+            float y3 = ward.second[3];
+            float x4 = ward.second[0] - ward.second[4] / 2.0;
+            float y4 = ward.second[3];
+            if(walkwayWidth > x1){
+                walkwayWidth = x1;
+            }
+            WardCoordinates[ward.first] = {x1, y1, x2, y2, x3, y3, x4, y4};
+        }
+        // tìm các Junction
+        map<string, Junction> junctions;
+        map<string, float> hallways;
+        for (auto& ward : WardCoordinates) {
+            float x1 = ward.second[0] - walkwayWidth;
+            float y1 = ward.second[1] - walkwayWidth;
+            float x2 = ward.second[2];
+            float y2 = ward.second[3] - walkwayWidth;
+            float x3 = ward.second[4];
+            float y3 = ward.second[5];
+            float x4 = ward.second[6] - walkwayWidth;
+            float y4 = ward.second[7];
+            Utility::addWard(junctions, x1, y1);
+            Utility::addWard(junctions, x2, y2);
+            Utility::addWard(junctions, x3, y3);
+            Utility::addWard(junctions, x4, y4);
+        }
+        Utility::calculateDistances(junctions, hallways, WardCoordinates, walkwayWidth);
+        do{
+            cout << "Select the type of traffic you want to simulate" << endl;
+            cout << "1. Hallway" << endl;
+            cout << "2. Junction" << endl;
+            cout << "Your choice: ";
+            getline(cin, input1);
+            if (input1 == "1")
+            {
+                do{
+                    cout << "Please enter the hallway you want to emulate" ;
+                    cout << "(from H0 to H" << hallways.size() - 1 << ")" << endl;
+                    cout << "(Press enter to randomly select a hallway in the map)" << endl;
+                    cout << "Your choice: ";
+                    getline(cin, hallName);
+                    if (hallName == "")
+                    {
+                        auto it = hallways.begin();
+                        std::advance(it, Utility::randomInt(0, hallways.size() - 1));
+                        std::string random_key = it->first;
+                        hallName.assign(random_key);
+                    }
+
+                } while (hallways.count(hallName) == 0);
+                float length1Side = (float)hallways[hallName] / 2;
+                juncData = {length1Side, length1Side};
+            }
+            else if (input1 == "2")
+            {
+                do
+                {
+                    cout << "Please enter the junction you want to emulate";
+                    cout << "(from J0 to J" << junctions.size() - 1 << ")" << endl;
+                    cout << "(Press enter to randomly select a junction in the map)" << endl;
+                    cout << "Your choice: ";
+                    getline(cin, juncName);
+                    if (juncName == "")
+                    {
+                        auto it = junctions.begin();
+                        std::advance(it, Utility::randomInt(0, junctions.size() - 1));
+                        std::string random_key = it->first;
+                        juncName.assign(random_key);
+                    }
+                } while (junctions[juncName].HaLength.size() < 4);            
+                juncData = junctions[juncName].HaLength;
+                juncDataList = Utility::convertJuncData(junctions);
+            }
+        } while (input1 != "1" && input1 != "2"); 
+    }
