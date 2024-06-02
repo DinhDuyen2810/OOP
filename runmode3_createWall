@@ -1,0 +1,89 @@
+if ((int)inputData["runMode"]["value"] == 3){
+            // Upper Wall
+            if(juncData[0] != 0 && juncData[2] != 0){
+                if(juncData[1] == 0){
+                    wall = new Wall(coors[0], coors[1], coors[6], coors[7]);
+                    socialForce->addWall(wall);
+                } else {
+                    wall = new Wall(coors[0], coors[1], coors[2], coors[3]);
+                    socialForce->addWall(wall);
+                    wall = new Wall(coors[4], coors[5], coors[6], coors[7]);
+                    socialForce->addWall(wall); 
+                }
+            } else if(juncData[0] == 0 && juncData[2] != 0){
+                wall = new Wall(coors[4], coors[5], coors[6], coors[7]);
+                socialForce->addWall(wall); 
+            } else if(juncData[0] != 0 && juncData[2] == 0){
+                wall = new Wall(coors[0], coors[1], coors[2], coors[3]);
+                socialForce->addWall(wall); 
+            }
+            // Lower Wall
+            if(juncData[0] != 0 && juncData[2] != 0){
+                if(juncData[3] == 0){
+                    wall = new Wall(coors[8], coors[9], coors[14], coors[15]);
+                    socialForce->addWall(wall);
+                } else {
+                    wall = new Wall(coors[8], coors[9], coors[10], coors[11]);
+                    socialForce->addWall(wall);
+                    wall = new Wall(coors[12], coors[13], coors[14], coors[15]);
+                    socialForce->addWall(wall);     
+                }
+            } else if(juncData[0] == 0 && juncData[2] != 0){
+                wall = new Wall(coors[12], coors[13], coors[14], coors[15]);
+                socialForce->addWall(wall); 
+            } else if(juncData[0] != 0 && juncData[2] == 0){
+                wall = new Wall(coors[8], coors[9], coors[10], coors[11]);
+                socialForce->addWall(wall); 
+            }
+            // Left Wall
+            if(juncData[1] != 0 && juncData[3] != 0){
+                if(juncData[0] == 0){
+                    wall = new Wall(coors[16], coors[17], coors[22], coors[23]);
+                    socialForce->addWall(wall);
+                } else {
+                    wall = new Wall(coors[16], coors[17], coors[18], coors[19]);
+                    socialForce->addWall(wall);
+                    wall = new Wall(coors[20], coors[21], coors[22], coors[23]);
+                    socialForce->addWall(wall);     
+                }
+            } else if(juncData[1] == 0 && juncData[3] != 0){
+                if(juncData[0] == 0){
+                    wall = new Wall(coors[18], coors[19], coors[20], coors[21]);
+                    socialForce->addWall(wall); 
+                }
+                wall = new Wall(coors[20], coors[21], coors[22], coors[23]);
+                socialForce->addWall(wall); 
+            } else if(juncData[1] != 0 && juncData[3] == 0){
+                wall = new Wall(coors[16], coors[17], coors[18], coors[19]);
+                socialForce->addWall(wall); 
+                if(juncData[0] == 0){
+                    wall = new Wall(coors[18], coors[19], coors[20], coors[21]);
+                    socialForce->addWall(wall); 
+                }
+            }
+            // Right Wall
+            if(juncData[1] != 0 && juncData[3] != 0){
+                if(juncData[2] == 0){
+                    wall = new Wall(coors[24], coors[25], coors[30], coors[31]);
+                    socialForce->addWall(wall);
+                } else {
+                    wall = new Wall(coors[24], coors[25], coors[26], coors[27]);
+                    socialForce->addWall(wall);
+                    wall = new Wall(coors[28], coors[29], coors[30], coors[31]);
+                    socialForce->addWall(wall);     
+                }
+            } else if(juncData[1] == 0 && juncData[3] != 0){
+                if(juncData[2] == 0){
+                    wall = new Wall(coors[26], coors[27], coors[28], coors[29]);
+                    socialForce->addWall(wall); 
+                }
+                wall = new Wall(coors[28], coors[29], coors[30], coors[31]);
+                socialForce->addWall(wall); 
+            } else if(juncData[1] != 0 && juncData[3] == 0){
+                wall = new Wall(coors[24], coors[25], coors[26], coors[27]);
+                socialForce->addWall(wall); 
+                if(juncData[2] == 0){
+                    wall = new Wall(coors[26], coors[27], coors[28], coors[29]);
+                    socialForce->addWall(wall); 
+                }
+            }
