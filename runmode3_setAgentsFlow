@@ -1,0 +1,291 @@
+void setAgentsFlow(Agent *agent, float desiredSpeed, float maxSpeed, float minSpeed, int caseJump)
+{
+    // if (socialForce->getCrowdSize() < threshold)
+    // {
+    //     agent->setStopAtCorridor(true);
+    // }
+
+    int codeSrc = 0;
+    int codeDes = 0;
+    int juncType = juncSizereal;
+    // xác định hình dạng của ngã rẽ hoặc ngã 3
+    if (juncData.size() == 4){
+        if(juncData[0] == 0){
+            if(juncData[1] == 0){
+                juncLost = 4;   
+            } else if(juncData[3] == 0){
+                juncLost = 7;
+            } else {
+                juncLost = 0;
+            }
+        } else if(juncData[1] == 0){
+            if(juncData[0] == 0){
+                juncLost = 4;
+            } else if(juncData[2] == 0){
+                juncLost = 5;
+            } else {
+                juncLost = 1;
+            }
+        } else if(juncData[2] == 0){
+            if(juncData[1] == 0){
+                juncLost = 5;
+            } else if(juncData[3] == 0){
+                juncLost = 6;
+            } else {
+                juncLost = 2;
+            }
+        } else if(juncData[3] == 0){
+            if(juncData[2] == 0){
+                juncLost = 6;
+            } else if(juncData[0] == 0){
+                juncLost = 7;
+            } else {
+                juncLost = 3;
+            }
+        }
+    }
+
+    if (juncType == 4)
+    {
+        if (caseJump < 3)
+        {
+            codeSrc = 0; // Go from Left to Right
+        }
+        else if (caseJump < 6)
+        {
+            codeSrc = 1; // Go from Right to Left
+        }
+        else if (caseJump < 9)
+        {
+            codeSrc = 2; // Go from Top to Bottom
+        }
+        else
+        {
+            codeSrc = 3; // Go from Bottom to Top
+        }
+    }
+    else if (juncType == 3)
+    {
+        if(juncLost == 0){
+            if (caseJump < 6)
+            {
+                codeSrc = 1;
+                if (caseJump % 2 == 0)
+                {
+                    codeDes = 2;
+                }
+                else
+                {
+                    codeDes = 3;
+                }
+            }
+            else if (caseJump < 12)
+            {
+                codeSrc = 2;
+                if (caseJump % 2 == 0)
+                {
+                    codeDes = 0;
+                }
+                else
+                {
+                    codeDes = 2;
+                }
+            }
+            else if (caseJump < 18)
+            {
+                codeSrc = 3;
+                if (caseJump % 2 == 0)
+                {
+                    codeDes = 0;
+                }
+                else
+                {
+                    codeDes = 3;
+                }
+            }
+        }
+        if(juncLost == 1){
+            if (caseJump < 6)
+            {
+                codeSrc = 0;
+                if (caseJump % 2 == 0)
+                {
+                    codeDes = 0;
+                }
+                else
+                {
+                    codeDes = 2;
+                }
+            }
+            else if (caseJump < 12)
+            {
+                codeSrc = 1;
+                if (caseJump % 2 == 0)
+                {
+                    codeDes = 1;
+                }
+                else
+                {
+                    codeDes = 2;
+                }
+            }
+            else if (caseJump < 18)
+            {
+                codeSrc = 3;
+                if (caseJump % 2 == 0)
+                {
+                    codeDes = 0;
+                }
+                else
+                {
+                    codeDes = 1;
+                }
+            }
+        }
+        if(juncLost == 2){
+            if (caseJump < 6)
+            {
+                codeSrc = 0;
+                if (caseJump % 2 == 0)
+                {
+                    codeDes = 2;
+                }
+                else
+                {
+                    codeDes = 3;
+                }
+            }
+            else if (caseJump < 12)
+            {
+                codeSrc = 2;
+                if (caseJump % 2 == 0)
+                {
+                    codeDes = 1;
+                }
+                else
+                {
+                    codeDes = 2;
+                }
+            }
+            else if (caseJump < 18)
+            {
+                codeSrc = 3;
+                if (caseJump % 2 == 0)
+                {
+                    codeDes = 1;
+                }
+                else
+                {
+                    codeDes = 3;
+                }
+            }
+        }
+        if(juncLost == 3){
+            if (caseJump < 6)
+            {
+                codeSrc = 0;
+                if (caseJump % 2 == 0)
+                {
+                    codeDes = 0;
+                }
+                else
+                {
+                    codeDes = 3;
+                }
+            }
+            else if (caseJump < 12)
+            {
+                codeSrc = 1;
+                if (caseJump % 2 == 0)
+                {
+                    codeDes = 1;
+                }
+                else
+                {
+                    codeDes = 3;
+                }
+            }
+            else if (caseJump < 18)
+            {
+                codeSrc = 2;
+                if (caseJump % 2 == 0)
+                {
+                    codeDes = 0;
+                }
+                else
+                {
+                    codeDes = 1;
+                }
+            }
+        }
+    }
+    else if (juncType == 2)
+    {
+        if(juncLost == -1){
+            if (caseJump < 3)
+            {
+                codeSrc = 0;
+            } else {
+                codeSrc = 1;
+            }   
+        } else if(juncLost == 4){
+            if (caseJump < 3)
+            {
+                codeSrc = 1;
+            } else {
+                codeSrc = 3;
+            }   
+        } else if(juncLost == 5){
+            if (caseJump < 3)
+            {
+                codeSrc = 0;
+            } else {
+                codeSrc = 3;
+            }   
+        } else if(juncLost == 6){
+            if (caseJump < 3)
+            {
+                codeSrc = 0;
+            } else {
+                codeSrc = 2;
+            }   
+        } else if(juncLost == 7){
+            if (caseJump < 3)
+            {
+                codeSrc = 1;
+            } else {
+                codeSrc = 2;
+            }   
+        }
+
+    }
+
+    vector<float> position = Utility::getPedesSource(
+        codeSrc,
+        (float)inputData["totalCrowdLength"]["value"],
+        (float)inputData["headCrowdLength"]["value"],
+        (float)inputData["crowdWidth"]["value"],
+        walkwayWidth, juncData);
+    vector<float> desList;
+
+    if (juncType == 4 || juncType == 2)
+    {
+        desList = Utility::getPedesDestination(codeSrc, caseJump % 3, walkwayWidth, juncData, agent->getStopAtCorridor());
+    }
+    else if (juncType == 3)
+    {
+        desList = Utility::getPedesDestination(codeDes, caseJump % 3, walkwayWidth, juncData, agent->getStopAtCorridor());
+    }
+
+    agent->setPosition(position[0], position[1]);
+    if (juncType == 3 && codeSrc != codeDes)
+    {
+        agent->setPath(randomFloat(-walkwayWidth / 2, walkwayWidth / 2), randomFloat(-walkwayWidth / 2, walkwayWidth / 2), 2.0);
+    } 
+    agent->setPath(desList[0], desList[1], desList[2]);
+    agent->setDestination(desList[0], desList[1]);
+    agent->setDesiredSpeed(desiredSpeed);
+    std::vector<float> color = getPedesColor(maxSpeed, minSpeed, agent->getDesiredSpeed(), classificationType);
+    agent->setColor(color[0], color[1], color[2]);
+    socialForce->addAgent(agent);
+}
