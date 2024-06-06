@@ -1,0 +1,76 @@
+    switch (juncLost)
+    {
+        case 0:
+        {
+            src = src + 1;
+            break;
+        }
+        case 1:
+        {
+            break;
+        }
+        case 2:
+        {
+            if(src == 0){
+                src = 3;
+            } else {
+                src = src - 1;
+            }
+            break;
+        }
+        case 3:
+        {
+            if(src == 0){
+                src = 2;
+            } else if(src == 1){
+                src == 3;
+            } else {
+                src = 0;
+            }
+            break;
+        }
+        case 4:
+        {   
+            if(src == 0){
+                src = 1;
+                turningDirection = 2;
+            } else {
+                src = 2;
+                turningDirection = 0;
+            }
+            break;
+        }
+        case 5:
+        {
+            if(src == 0){
+                turningDirection = 2;
+            } else {
+                turningDirection = 0;
+            }
+            break;
+        }
+        case 6:
+        {
+            if(src == 0){
+                src = 3;
+                turningDirection = 2;
+            } else {
+                src = 1;
+                turningDirection = 0;
+            }
+            break;
+        }
+        case 7:
+        {
+            if(src == 0){
+                src = 2;
+                turningDirection = 2;
+            } else {
+                src = 3;
+                turningDirection = 0;
+            }
+            break;
+        }
+            
+        default:  break;
+    }
