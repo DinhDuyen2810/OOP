@@ -114,45 +114,37 @@ std::map<std::string, std::vector<float>> readHospitalData(const char *fileName)
     return map;
 }
 
-struct Junction
-{
-    string name;
-    int numOfH;
-    float x, y;
-    vector<float> HaLength = {0, 0, 0, 0}; // Trái, Dưới, Phải, Trên
-};
-
-// kiểm tra xem tồn tại giao lộ chưa
-bool check(map<string, Junction>& junctions, float x, float y) {
+// Kiểm tra xem tồn tại giao lộ chưa
+bool check(map<string, vector<float>>& junctions, float x, float y) {
     for (const auto& junc : junctions) {
-        if (junc.second.x == x && junc.second.y == y) {
+        if (junc.second[1] == x && junc.second[2] == y) {
             return true;
         }
     }
     return false;
 }
 
-// tăng numOfH
-void add(map<string, Junction>& junctions, float x, float y) {
+// Tăng numOfH
+void add(map<string, vector<float>>& junctions, float x, float y) {
     for (auto& junc : junctions) {
-        if (junc.second.x == x && junc.second.y == y) {
-            junc.second.numOfH++;
+        if (junc.second[1] == x && junc.second[2] == y) {
+            junc.second[0]++;
             return;
         }
     }
 }
 
-// nếu chưa tồn tại giao lộ thì thêm, tồn tại rồi thì tăng hành lang giao
-void addWard(map<string, Junction>& junctions, float x, float y) {
+// Nếu chưa tồn tại giao lộ thì thêm, tồn tại rồi thì tăng hành lang giao
+void addWard(map<string, vector<float>>& junctions, float x, float y) {
     if (check(junctions, x, y)) {
         add(junctions, x, y);
     } else {
-        Junction Junc;
-        Junc.x = x;
-        Junc.y = y;
-        Junc.numOfH = 2;
-        Junc.name = "J" + to_string(junctions.size());
-        junctions[Junc.name] = Junc;
+        vector<float> Junc(7, 0.0); // numOfH, x, y, HaLength (4 values)
+        Junc[0] = 2;
+        Junc[1] = x;
+        Junc[2] = y;
+        string name = "J" + to_string(junctions.size());
+        junctions[name] = Junc;
     }
 }
 
@@ -194,28 +186,28 @@ bool isLineThroughWard(const map<string, vector<float>>& wardCoordinates, float 
     return false;
 }
 
-// tính khoảng cách từng giao lộ vs nhau
-void calculateDistances(map<string, Junction>& junctions, map<string, float>& hallways,
+// Tính khoảng cách từng giao lộ với nhau
+void calculateDistances(map<string, vector<float>>& junctions, map<string, float>& hallways,
                         const map<string, vector<float>>& wardCoordinates, float walkwayWidth) {
     vector<pair<string, string>> checkedConnections;
-    
+
     for (auto& j1 : junctions) {
         for (auto& j2 : junctions) {
-            if (j1.first != j2.first && 
-                find(checkedConnections.begin(), checkedConnections.end(), make_pair(j1.first, j2.first)) == checkedConnections.end() && 
+            if (j1.first != j2.first &&
+                find(checkedConnections.begin(), checkedConnections.end(), make_pair(j1.first, j2.first)) == checkedConnections.end() &&
                 find(checkedConnections.begin(), checkedConnections.end(), make_pair(j2.first, j1.first)) == checkedConnections.end()) {
-                
-                float x1 = j1.second.x;
-                float y1 = j1.second.y;
-                float x2 = j2.second.x;
-                float y2 = j2.second.y;
+
+                float x1 = j1.second[1];
+                float y1 = j1.second[2];
+                float x2 = j2.second[1];
+                float y2 = j2.second[2];
 
                 if (x1 == x2 || y1 == y2) {
                     bool isBlocked = false;
                     for (const auto& j3 : junctions) {
                         if (j3.first != j1.first && j3.first != j2.first) {
-                            float x3 = j3.second.x;
-                            float y3 = j3.second.y;
+                            float x3 = j3.second[1];
+                            float y3 = j3.second[2];
                             if ((x1 == x2 && x1 == x3 && isBetween(y1, y3, y2)) || (y1 == y2 && y1 == y3 && isBetween(x1, x3, x2))) {
                                 isBlocked = true;
                                 break;
@@ -223,7 +215,7 @@ void calculateDistances(map<string, Junction>& junctions, map<string, float>& ha
                         }
                     }
                     if (!isBlocked) {
-                        if(!isLineThroughWard(wardCoordinates, x1, y1, x2, y2)){
+                        if (!isLineThroughWard(wardCoordinates, x1, y1, x2, y2)) {
                             float distance = calculateDistance(x1, y1, x2, y2) - walkwayWidth;
                             string nameH = "H" + to_string(hallways.size());
                             hallways[nameH] = distance;
@@ -232,27 +224,27 @@ void calculateDistances(map<string, Junction>& junctions, map<string, float>& ha
                             // Cập nhật khoảng cách trong vector HaLength của mỗi giao lộ
                             if (x1 == x2) {
                                 if (y1 < y2) {
-                                    if (j1.second.HaLength[3] == 0 || distance < j1.second.HaLength[3])
-                                        j1.second.HaLength[3] = distance; // Trên
-                                    if (j2.second.HaLength[1] == 0 || distance < j2.second.HaLength[1])
-                                        j2.second.HaLength[1] = distance; // Dưới
+                                    if (j1.second[6] == 0 || distance < j1.second[6])
+                                        j1.second[6] = distance; // Trên
+                                    if (j2.second[4] == 0 || distance < j2.second[4])
+                                        j2.second[4] = distance; // Dưới
                                 } else {
-                                    if (j1.second.HaLength[1] == 0 || distance < j1.second.HaLength[1])
-                                        j1.second.HaLength[1] = distance; // Dưới
-                                    if (j2.second.HaLength[3] == 0 || distance < j2.second.HaLength[3])
-                                        j2.second.HaLength[3] = distance; // Trên
+                                    if (j1.second[4] == 0 || distance < j1.second[4])
+                                        j1.second[4] = distance; // Dưới
+                                    if (j2.second[6] == 0 || distance < j2.second[6])
+                                        j2.second[6] = distance; // Trên
                                 }
                             } else if (y1 == y2) {
                                 if (x1 < x2) {
-                                    if (j1.second.HaLength[2] == 0 || distance < j1.second.HaLength[2])
-                                        j1.second.HaLength[2] = distance; // Phải
-                                    if (j2.second.HaLength[0] == 0 || distance < j2.second.HaLength[0])
-                                        j2.second.HaLength[0] = distance; // Trái
+                                    if (j1.second[5] == 0 || distance < j1.second[5])
+                                        j1.second[5] = distance; // Phải
+                                    if (j2.second[3] == 0 || distance < j2.second[3])
+                                        j2.second[3] = distance; // Trái
                                 } else {
-                                    if (j1.second.HaLength[0] == 0 || distance < j1.second.HaLength[0])
-                                        j1.second.HaLength[0] = distance; // Trái
-                                    if (j2.second.HaLength[2] == 0 || distance < j2.second.HaLength[2])
-                                        j2.second.HaLength[2] = distance; // Phải
+                                    if (j1.second[3] == 0 || distance < j1.second[3])
+                                        j1.second[3] = distance; // Trái
+                                    if (j2.second[5] == 0 || distance < j2.second[5])
+                                        j2.second[5] = distance; // Phải
                                 }
                             }
                         }
@@ -263,6 +255,7 @@ void calculateDistances(map<string, Junction>& junctions, map<string, float>& ha
     }
 }
 
+
 int randomInt(int from, int to)
 {
     static std::mt19937 gen(std::chrono::system_clock::now().time_since_epoch().count());
@@ -270,22 +263,18 @@ int randomInt(int from, int to)
     return distr(gen);
 }
  
-std::map<std::string, int> convertJuncData(std::map<std::string, Junction> mapData)
-{
-    std::map<std::string, int> data;
-    for (auto elem : mapData)
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            data[elem.first + "_" + std::to_string(i)] = elem.second.HaLength[i];
+std::map<std::string, float> convertJuncData(const std::map<std::string, std::vector<float>>& mapData) {
+    std::map<std::string, float> data;
+    for (const auto& elem : mapData) {
+        for (int i = 3; i <= 6; i++) { // Indices 3 to 6 for HaLength in vector<float>
+            data[elem.first + "_" + std::to_string(i-3)] = elem.second[i];
         }
     }
     return data;
 }
 
-
 std::map<std::string, std::vector<float>> mapData;
-std::map<std::string, int> juncDataList;
+std::map<std::string, float> juncDataList;
 std::vector<float> juncData;
 std::string juncName;
 std::string hallName;
@@ -305,9 +294,8 @@ int main()
 
     WardData["A"] = {hospitalData["PosofA"][0], hospitalData["PosofA"][1], hospitalData["PosofA"][4],
      hospitalData["PosofA"][5], hospitalData["PosofA"][6] - hospitalData["PosofA"][2]};
-
     float walkwayWidth = 10e8;
-    // tính toán tọa độ từng khoa/viện
+     // tính toán tọa độ từng khoa/viện
     for (auto& ward : WardData) {
         float x1 = ward.second[0] - ward.second[4] / 2.0;
         float y1 = ward.second[1];
@@ -323,7 +311,7 @@ int main()
         WardCoordinates[ward.first] = {x1, y1, x2, y2, x3, y3, x4, y4};
     }
     // tìm các Junction
-    map<string, Junction> junctions;
+    map<string, vector<float>> junctions;
     map<string, float> hallways;
     for (auto& ward : WardCoordinates) {
         float x1 = ward.second[0] - walkwayWidth;
@@ -388,9 +376,9 @@ int main()
                     juncName.assign(random_key);
                 }
 
-            } while (junctions[juncName].HaLength.size() < 4);
+            } while (junctions[juncName].size() < 4);
             cout << juncName << " : " << endl;            
-            juncData = junctions[juncName].HaLength;
+            juncData = {junctions[juncName][3], junctions[juncName][4], junctions[juncName][5], junctions[juncName][6]};
             juncDataList = convertJuncData(junctions);
         }
     } while (input1 != "1" && input1 != "2"); 
@@ -416,6 +404,6 @@ int main()
             count++;
         }
     }
-     
+    
     return 0;
 }
