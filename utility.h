@@ -71,15 +71,15 @@ namespace Utility
     int randomInt(int from, int to);
 
     std::map<std::string, std::vector<float>> readHospitalData(const char *fileName);
-    bool check(map<string, Junction>& junctions, float x, float y);
-    void add(map<string, Junction>& junctions, float x, float y);
-    void addWard(map<string, Junction>& junctions, float x, float y);
-    bool isBetween(float a, float b, float c);
-    float calculateDistance(float x1, float y1, float x2, float y2);
-    bool isLineThroughWard(const map<string, vector<float>>& wardCoordinates, float x1, float y1, float x2, float y2);
-    void calculateDistances(map<string, Junction>& junctions, map<string, float>& hallways,
+    bool Utility::check(map<string, vector<float>>& junctions, float x, float y);
+    void Utility::add(map<string, vector<float>>& junctions, float x, float y);
+    void Utility::addWard(map<string, vector<float>>& junctions, float x, float y);
+    bool Utility::isBetween(float a, float b, float c);
+    float Utility::calculateDistance(float x1, float y1, float x2, float y2);
+    bool Utility::isLineThroughWard(const map<string, vector<float>>& wardCoordinates, float x1, float y1, float x2, float y2);
+    void Utility::calculateDistances(map<string, vector<float>>& junctions, map<string, float>& hallways,
                         const map<string, vector<float>>& wardCoordinates, float walkwayWidth);
-    std::map<std::string, int> convertJuncData(std::map<std::string, Junction> mapData);                    
+    std::map<std::string, float> Utility::convertJuncData(const std::map<std::string, std::vector<float>>& mapData);                    
 };
 
 #endif
